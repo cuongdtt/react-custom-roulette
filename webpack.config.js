@@ -1,4 +1,4 @@
-var path = require('path')
+var path = require('path');
 module.exports = {
   mode: 'production',
   entry: './src/index.tsx',
@@ -48,4 +48,4 @@ module.exports = {
       root: 'ReactDOM',
     },
   },
-}
+};

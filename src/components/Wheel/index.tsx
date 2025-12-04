@@ -209,7 +209,7 @@ export const Wheel = ({
       startSpinning();
       const selectedPrize =
         prizeMap[prizeNumber][
-          Math.floor(Math.random() * prizeMap[prizeNumber]?.length)
+        Math.floor(Math.random() * prizeMap[prizeNumber]?.length)
         ];
       const finalRotationDegreesCalculated = getRotationDegrees(
         selectedPrize,
@@ -266,7 +266,7 @@ export const Wheel = ({
     <RouletteContainer
       style={
         !isFontLoaded ||
-        (totalImages > 0 && loadedImagesCounter !== totalImages)
+          (totalImages > 0 && loadedImagesCounter !== totalImages)
           ? { visibility: 'hidden' }
           : {}
       }

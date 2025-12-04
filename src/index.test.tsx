@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { createRoot, Root } from 'react-dom/client';
+import { act } from '@testing-library/react';
 
 import { Wheel } from '.';
 
@@ -25,67 +25,65 @@ const onStopSpinning = () => null;
 jest.useFakeTimers();
 
 let container: HTMLDivElement;
+let root: Root;
 
 beforeEach(() => {
   container = document.createElement('div');
   document.body.appendChild(container);
+  root = createRoot(container);
 });
 
 afterEach(() => {
+  root.unmount();
   document.body.removeChild(container);
-  container = (null as unknown) as HTMLDivElement;
 });
 
 describe('Render Wheel', () => {
   it('required props only', () => {
-    ReactDOM.render(
+    root.render(
       <Wheel
         data={data}
         prizeNumber={prizeNumber}
         mustStartSpinning={mustStartSpinning}
-      />,
-      container
+      />
     );
   });
 
   it('innerBorderWidth = 0', () => {
-    ReactDOM.render(
+    root.render(
       <Wheel
         data={data}
         prizeNumber={prizeNumber}
         mustStartSpinning={mustStartSpinning}
         innerBorderWidth={0}
-      />,
-      container
+      />
     );
   });
 
   it('outerBorderWidth = 0', () => {
-    ReactDOM.render(
+    root.render(
       <Wheel
         data={data}
         prizeNumber={prizeNumber}
         mustStartSpinning={mustStartSpinning}
         outerBorderWidth={0}
-      />,
-      container
+      />
     );
   });
 
   it('radiusLineWidth = 0', () => {
-    ReactDOM.render(
+    root.render(
       <Wheel
         data={data}
         prizeNumber={prizeNumber}
         mustStartSpinning={mustStartSpinning}
         radiusLineWidth={0}
-      />,
-      container
+      />
     );
   });
 
   it('all props defined', () => {
-    ReactDOM.render(
+    root.render(
       <Wheel
         data={data}
         prizeNumber={prizeNumber}
@@ -103,16 +101,14 @@ describe('Render Wheel', () => {
         perpendicularText
         textDistance={textDistance}
         onStopSpinning={onStopSpinning}
-      />,
-      container
+      />
     );
   });
 
   it('render spin', () => {
     act(() => {
-      ReactDOM.render(
-        <Wheel data={data} prizeNumber={prizeNumber} mustStartSpinning />,
-        container
+      root.render(
+        <Wheel data={data} prizeNumber={prizeNumber} mustStartSpinning />
       );
       jest.runOnlyPendingTimers();
     });
@@ -122,7 +118,7 @@ describe('Render Wheel', () => {
     let hasBeenCalled = false;
 
     act(() => {
-      ReactDOM.render(
+      root.render(
         <Wheel
           data={data}
           prizeNumber={prizeNumber}
@@ -131,13 +127,16 @@ describe('Render Wheel', () => {
             hasBeenCalled = true;
             return null;
           }}
-        />,
-        container
+        />
       );
 
       expect(hasBeenCalled).not.toBe(true);
+    });
+
+    act(() => {
       jest.runAllTimers();
     });
+
     expect(hasBeenCalled).toBe(true);
   });
 });

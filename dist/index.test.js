@@ -1,6 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { jsx as _jsx } from "react/jsx-runtime";
+import { createRoot } from 'react-dom/client';
+import { act } from '@testing-library/react';
 import { Wheel } from '.';
 // test('renders Wheel component', () => {
 var data = [{ option: '0' }];
@@ -20,44 +20,48 @@ var textDistance = 86;
 var onStopSpinning = function () { return null; };
 jest.useFakeTimers();
 var container;
+var root;
 beforeEach(function () {
     container = document.createElement('div');
     document.body.appendChild(container);
+    root = createRoot(container);
 });
 afterEach(function () {
+    root.unmount();
     document.body.removeChild(container);
-    container = null;
 });
 describe('Render Wheel', function () {
     it('required props only', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning }), container);
+        root.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning }));
     });
     it('innerBorderWidth = 0', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, innerBorderWidth: 0 }), container);
+        root.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, innerBorderWidth: 0 }));
     });
     it('outerBorderWidth = 0', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, outerBorderWidth: 0 }), container);
+        root.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, outerBorderWidth: 0 }));
     });
     it('radiusLineWidth = 0', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, radiusLineWidth: 0 }), container);
+        root.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, radiusLineWidth: 0 }));
     });
     it('all props defined', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, backgroundColors: backgroundColors, textColors: textColors, fontSize: fontSize, outerBorderColor: outerBorderColor, outerBorderWidth: outerBorderWidth, innerRadius: innerRadius, innerBorderColor: innerBorderColor, innerBorderWidth: innerBorderWidth, radiusLineColor: radiusLineColor, radiusLineWidth: radiusLineWidth, perpendicularText: true, textDistance: textDistance, onStopSpinning: onStopSpinning }), container);
+        root.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, backgroundColors: backgroundColors, textColors: textColors, fontSize: fontSize, outerBorderColor: outerBorderColor, outerBorderWidth: outerBorderWidth, innerRadius: innerRadius, innerBorderColor: innerBorderColor, innerBorderWidth: innerBorderWidth, radiusLineColor: radiusLineColor, radiusLineWidth: radiusLineWidth, perpendicularText: true, textDistance: textDistance, onStopSpinning: onStopSpinning }));
     });
     it('render spin', function () {
         act(function () {
-            ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true }), container);
+            root.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true }));
             jest.runOnlyPendingTimers();
         });
     });
     it('render callback trigger', function () {
         var hasBeenCalled = false;
         act(function () {
-            ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true, onStopSpinning: function () {
+            root.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true, onStopSpinning: function () {
                     hasBeenCalled = true;
                     return null;
-                } }), container);
+                } }));
             expect(hasBeenCalled).not.toBe(true);
+        });
+        act(function () {
             jest.runAllTimers();
         });
         expect(hasBeenCalled).toBe(true);

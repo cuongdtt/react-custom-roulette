@@ -91,7 +91,7 @@ export const Wheel = ({
   startingOptionIndex = -1,
   pointerProps = {},
   disableInitialAnimation = DISABLE_INITIAL_ANIMATION,
-}: Props): JSX.Element | null => {
+}: Props): React.JSX.Element | null => {
   const [wheelData, setWheelData] = useState<WheelData[]>([...data]);
   const [prizeMap, setPrizeMap] = useState<number[][]>([[0]]);
   const [startRotationDegrees, setStartRotationDegrees] = useState(0);
@@ -209,7 +209,7 @@ export const Wheel = ({
       startSpinning();
       const selectedPrize =
         prizeMap[prizeNumber][
-          Math.floor(Math.random() * prizeMap[prizeNumber]?.length)
+        Math.floor(Math.random() * prizeMap[prizeNumber]?.length)
         ];
       const finalRotationDegreesCalculated = getRotationDegrees(
         selectedPrize,
@@ -266,20 +266,20 @@ export const Wheel = ({
     <RouletteContainer
       style={
         !isFontLoaded ||
-        (totalImages > 0 && loadedImagesCounter !== totalImages)
+          (totalImages > 0 && loadedImagesCounter !== totalImages)
           ? { visibility: 'hidden' }
           : {}
       }
     >
       <RotationContainer
         className={getRouletteClass()}
-        classKey={classKey}
-        startSpinningTime={startSpinningTime}
-        continueSpinningTime={continueSpinningTime}
-        stopSpinningTime={stopSpinningTime}
-        startRotationDegrees={startRotationDegrees}
-        finalRotationDegrees={finalRotationDegrees}
-        disableInitialAnimation={disableInitialAnimation}
+        $classKey={classKey}
+        $startSpinningTime={startSpinningTime}
+        $continueSpinningTime={continueSpinningTime}
+        $stopSpinningTime={stopSpinningTime}
+        $startRotationDegrees={startRotationDegrees}
+        $finalRotationDegrees={finalRotationDegrees}
+        $disableInitialAnimation={disableInitialAnimation}
       >
         <WheelCanvas
           width="900"

@@ -50,7 +50,7 @@ const drawRadialBorder = (
 };
 
 const drawWheel = (
-  canvasRef: RefObject<HTMLCanvasElement>,
+  canvasRef: RefObject<HTMLCanvasElement | null>,
   data: WheelData[],
   drawWheelProps: DrawWheelProps
 ) => {
@@ -197,11 +197,9 @@ const drawWheel = (
         ctx.rotate(contentRotationAngle);
 
         const text = data[i].option;
-        ctx.font = `${style?.fontStyle || fontStyle} ${
-          style?.fontWeight || fontWeight
-        } ${(style?.fontSize || fontSize) * 2}px ${
-          style?.fontFamily || fontFamily
-        }, Helvetica, Arial`;
+        ctx.font = `${style?.fontStyle || fontStyle} ${style?.fontWeight || fontWeight
+          } ${(style?.fontSize || fontSize) * 2}px ${style?.fontFamily || fontFamily
+          }, Helvetica, Arial`;
         ctx.fillStyle = (style && style.textColor) as string;
         ctx.fillText(
           text || '',
@@ -236,7 +234,7 @@ const WheelCanvas = ({
   prizeMap,
   rouletteUpdater,
   textDistance,
-}: WheelCanvasProps): JSX.Element => {
+}: WheelCanvasProps): React.JSX.Element => {
   const canvasRef = createRef<HTMLCanvasElement>();
   const drawWheelProps = {
     outerBorderColor,
